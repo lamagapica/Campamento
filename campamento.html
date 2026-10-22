@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4. Campamento y Criptex - El Secreto de Varia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = { theme: { extend: { colors: { cafe: '#382417', caramelo: '#6D3C1C', miel: '#C57938', vainilla: '#E7C196', 'cafe-dark': '#26160d' } } } }
+    </script>
+    <style>
+        body { background-color: #26160d; color: #382417; font-family: 'Inter', sans-serif; min-height: 100vh; }
+        .parchment-sheet { background-color: #E7C196; border-top: 4px solid #C57938; border-bottom: 4px solid #6D3C1C; }
+        .roman-border-box { border: 2px solid #C57938; outline: 1px solid #6D3C1C; outline-offset: -5px; }
+        .cryptex-digit { background: linear-gradient(180deg, #6D3C1C 0%, #382417 100%); border: 2px solid #C57938; color: #E7C196; }
+    </style>
+</head>
+<body class="flex flex-col justify-between min-h-screen">
+
+    <header class="bg-cafe-dark border-b-2 border-miel px-4 py-4 text-vainilla">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="font-cinzel text-lg font-bold">4. Campamento Romano & Criptex</h1>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl w-full mx-auto my-6 px-4">
+        <!-- Parte 1: Estación 4 -->
+        <div id="st-4" class="parchment-sheet roman-border-box p-6 md:p-10 space-y-6 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-caramelo/30 pb-3">
+                <span class="font-cinzel text-xs font-bold uppercase text-caramelo">Estación IV de IV</span>
+                <span class="font-roman text-xs bg-miel/20 px-3 py-1 border border-miel">Plaza de la Iglesia</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-7 space-y-4">
+                    <img src="https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=800&q=80" class="w-full h-64 object-cover border-2 border-caramelo">
+                </div>
+
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="border-l-4 border-caramelo pl-3 text-xs md:text-sm italic text-cafe">
+                        «Sede principal del campamento militar levantado por la Legio IV Macedónica. ¡Obtén la última cifra para abrir el Criptex!»
+                    </div>
+
+                    <div class="space-y-3 pt-2 border-t border-caramelo/20">
+                        <h4 class="font-cinzel text-xs font-bold text-caramelo">Desafío:</h4>
+                        <p id="q-text" class="text-xs md:text-sm font-semibold text-cafe"></p>
+                        <div id="q-box" class="space-y-2"></div>
+                        <div id="feedback" class="hidden text-xs font-bold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="next-step" class="hidden pt-4 border-t border-caramelo/30 text-right">
+                <button onclick="goToCryptex()" class="px-8 py-3 bg-caramelo text-vainilla font-cinzel text-xs uppercase hover:bg-cafe">Desbloquear el Arca Imperial &rarr;</button>
+            </div>
+        </div>
+
+        <!-- Parte 2: Criptex Final -->
+        <div id="st-cryptex" class="hidden parchment-sheet roman-border-box p-6 md:p-10 space-y-6 text-center max-w-2xl mx-auto shadow-2xl">
+            <h2 class="font-cinzel text-2xl font-black uppercase text-cafe">El Arca de la Legión</h2>
+            <p class="text-xs text-caramelo">Ajusta los rodillos en números romanos con las 4 cifras obtenidas (7 - 3 - 9 - 2):</p>
+
+            <div class="flex justify-center gap-3 py-4">
+                <script>
+                    const ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X'];
+                    let indices = [0,0,0,0];
+                    function turn(i, d) {
+                        indices[i] = (indices[i] + d + 10) % 10;
+                        document.getElementById('c-'+i).innerText = ROMAN[indices[i]];
+                    }
+                </script>
+                <div class="flex flex-col items-center">
+                    <button onclick="turn(0,1)" class="text-caramelo"><i class="fa-solid fa-chevron-up"></i></button>
+                    <div id="c-0" class="cryptex-digit w-12 h-14 font-cinzel font-bold flex items-center justify-center text-lg">I</div>
+                    <button onclick="turn(0,-1)" class="text-caramelo"><i class="fa-solid fa-chevron-down"></i></button>
+                </div>
+                <div class="flex flex-col items-center">
+                    <button onclick="turn(1,1)" class="text-caramelo"><i class="fa-solid fa-chevron-up"></i></button>
+                    <div id="c-1" class="cryptex-digit w-12 h-14 font-cinzel font-bold flex items-center justify-center text-lg">I</div>
+                    <button onclick="turn(1,-1)" class="text-caramelo"><i class="fa-solid fa-chevron-down"></i></button>
+                </div>
+                <div class="flex flex-col items-center">
+                    <button onclick="turn(2,1)" class="text-caramelo"><i class="fa-solid fa-chevron-up"></i></button>
+                    <div id="c-2" class="cryptex-digit w-12 h-14 font-cinzel font-bold flex items-center justify-center text-lg">I</div>
+                    <button onclick="turn(2,-1)" class="text-caramelo"><i class="fa-solid fa-chevron-down"></i></button>
+                </div>
+                <div class="flex flex-col items-center">
+                    <button onclick="turn(3,1)" class="text-caramelo"><i class="fa-solid fa-chevron-up"></i></button>
+                    <div id="c-3" class="cryptex-digit w-12 h-14 font-cinzel font-bold flex items-center justify-center text-lg">I</div>
+                    <button onclick="turn(3,-1)" class="text-caramelo"><i class="fa-solid fa-chevron-down"></i></button>
+                </div>
+            </div>
+
+            <button onclick="unlock()" class="w-full py-3 bg-caramelo text-vainilla font-cinzel text-xs uppercase hover:bg-cafe">Abrir Arca</button>
+            <div id="victory-box" class="hidden pt-4 border-t border-caramelo text-green-900 font-bold text-sm">
+                ¡Enhorabuena! Has completado El Secreto de Varia y hallado el Tesoro de Uara.
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const state = JSON.parse(localStorage.getItem('vareia_game_state')) || { difficulty: 'easy', digits: [] };
+
+        function loadQuestion() {
+            const qBox = document.getElementById('q-box');
+            if(state.difficulty === 'easy') {
+                document.getElementById('q-text').innerText = '¿Cuál era el símbolo sagrado del estandarte militar legionario?';
+                qBox.innerHTML = `
+                    <button onclick="check(true)" class="w-full text-left p-2 text-xs bg-vainilla border border-caramelo">A) El Águila Imperial (Aquila)</button>
+                    <button onclick="check(false)" class="w-full text-left p-2 text-xs bg-vainilla border border-caramelo">B) El León de Ordes</button>
+                `;
+            } else {
+                document.getElementById('q-text').innerText = '¿Bajo qué primer Emperador se libraron las Guerras Cántabras?';
+                qBox.innerHTML = `
+                    <input type="text" id="ans" placeholder="Escribe tu respuesta..." class="w-full p-2 text-xs bg-vainilla border border-caramelo mb-2">
+                    <button onclick="checkHard()" class="px-4 py-2 bg-caramelo text-vainilla text-xs">Verificar</button>
+                `;
+            }
+        }
+
+        function check(ok) {
+            const fb = document.getElementById('feedback');
+            fb.classList.remove('hidden');
+            if(ok) {
+                fb.className = "text-xs font-bold text-green-800";
+                fb.innerText = "¡Correcto! Cifra desbloqueada: 2";
+                state.digits[3] = '2';
+                localStorage.setItem('vareia_game_state', JSON.stringify(state));
+                document.getElementById('next-step').classList.remove('hidden');
+            } else {
+                fb.className = "text-xs font-bold text-red-800";
+                fb.innerText = "Incorrecto. Inténtalo de nuevo.";
+            }
+        }
+
+        function checkHard() {
+            const val = document.getElementById('ans').value.toLowerCase();
+            check(val.includes('augusto') || val.includes('octavio'));
+        }
+
+        function goToCryptex() {
+            document.getElementById('st-4').classList.add('hidden');
+            document.getElementById('st-cryptex').classList.remove('hidden');
+        }
+
+        function unlock() {
+            // Target: VII (index 6), III (index 2), IX (index 8), II (index 1)
+            if(indices[0] === 6 && indices[1] === 2 && indices[2] === 8 && indices[3] === 1) {
+                document.getElementById('victory-box').classList.remove('hidden');
+            } else {
+                alert("Combinación incorrecta. Revisa los números romanos (VII - III - IX - II).");
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
